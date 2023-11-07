@@ -23,16 +23,15 @@ public class BinarySearchLibrary {
 	 */
 	public static <T> int firstIndexSlow(List<T> list,
 			T target, Comparator<T> comp) {
-		int index = Collections.binarySearch(list, target, comp);
-
-		if (index < 0)
-			return index;
-
-		while (0 <= index && comp.compare(list.get(index), target) == 0) {
-			index -= 1;
+			int index = Collections.binarySearch(list, target,comp);
+	
+			if (index < 0) return index;
+				
+			while (0 <= index && comp.compare(list.get(index),target) == 0) {
+				index -= 1;
+			}
+			return index+1;
 		}
-		return index + 1;
-	}
 
 	/**
 	 * Return smallest index of target in list using comp
@@ -46,27 +45,27 @@ public class BinarySearchLibrary {
 	 */
 	public static <T> int firstIndex(List<T> list,
 			T target, Comparator<T> comp) {
-		int low = -1;
-		int high = list.size()-1;
-		int foundAt = -1;
+			if(list == null || list.size() == 0) return -1;
 
-		while (low <= high) {
-			int mid = (low + high)/2;
-        	T midval = list.get(mid);
-        	int cmp = comp.compare(midval,target);
-
-			if (cmp < 0) {
-				low = mid + 1;
-
-			} else if (cmp > 0) {
-				high = mid - 1;
-
-			} else {
-				foundAt = mid;
-				high = mid - 1;
+			int low = 0;
+			int high = list.size()-1;
+		
+			while(low + 1 < high) {
+				int mid = (low + high) / 2;
+				T midValue = list.get(mid);
+	
+				int compare = comp.compare(midValue, target);
+				if(compare < 0) {
+					low = mid + 1;
+				} else {
+					high = mid;
+				}
 			}
-    	}
-    	return foundAt;
+		
+			if(comp.compare(list.get(low), (target)) == 0) return low;
+			if(comp.compare(list.get(high), (target)) == 0) return high;
+
+			return -1;
 	}
 
 
@@ -85,26 +84,28 @@ public class BinarySearchLibrary {
 	 */
 	public static <T> int lastIndex(List<T> list,
 			T target, Comparator<T> comp) {
-			int low = 0;
-			int high = list.size() - 1;
-			int foundAt = -1;
-			
-			while (low <= high) {
-				int mid = (low + high) / 2;
-				T midval = list.get(mid);
-				int cmp = comp.compare(midval, target);
-			
-				if (cmp < 0) {
-					low = mid + 1;
+			if(list == null || list.size() == 0) return -1;
 
-				} else if (cmp > 0) {
-					high = mid - 1;
-					
-				} else {
-					foundAt = mid;
+			int low = 0;
+			int high = list.size()-1;
+
+			while(low + 1 < high) {
+				int mid = (low + high) / 2;
+				T midValue = list.get(mid);
+
+				int compare = comp.compare(midValue, target);
+				if(compare < 0) {
 					low = mid + 1;
+				} else if (compare > 0){
+					high = mid;
+				} else {
+					low = mid;
 				}
 			}
-			return foundAt;
+
+			if(comp.compare(list.get(high), (target)) == 0) return high;
+			if(comp.compare(list.get(low), (target)) == 0) return low;
+			return -1;
 	}
+	
 }
