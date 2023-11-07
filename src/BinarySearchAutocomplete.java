@@ -103,6 +103,10 @@ public class BinarySearchAutocomplete implements Autocompletor {
 			throw new IllegalArgumentException("Illegal value of k:"+k);
 		}
 
+		if (k == 0) {
+			return new ArrayList<>();
+		}
+		
 		Term dummy = new Term(prefix,0);
 		PrefixComparator comp = PrefixComparator.getComparator(prefix.length());
 		int first = firstIndexOf(myTerms, dummy, comp);
